@@ -2,6 +2,9 @@ from machine import ADC, Pin
 import time
 
 led = Pin(13, Pin.OUT)
+led2 = Pin(12, Pin.OUT)
+led3 = Pin(14, Pin.OUT)
+
 
 class LDR:
     """This class read a value from a light dependent resistor (LDR)"""
@@ -82,11 +85,21 @@ while True:
         
         dadosUltimoMinuto.append(value)
         
-        # faz o led piscar em caso de alta luminosidade
+        # faz o led acender de acordo com a luminosidade
         if(value >= 70):
             led.value(1)
             time.sleep(0.5)
+        else:
             led.value(0)
+        if(value >= 85):
+            led2.value(1)
+        else:
+            led2.value(0)
+        if(value == 100):
+            led3.value(1)
+        else:
+            led3.value(0)
+            
 
         # delay de 1 segundo entre medições
         time.sleep(1)
