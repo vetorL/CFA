@@ -41,18 +41,43 @@ class LDR:
         return (self.max_value - self.min_value) * self.read() / 4095
 
 
-# initialize an LDR
+# inicializa o LDR
 ldr = LDR(32)
 
-while True:
-    # read a value from the LDR
-    value = ldr.value()
-    print('value = {}'.format(value))
+class DadosLuminosidadeUltimaHora:
+    def __init__(self):
+        self.lista = []
+        
+    def adicionar(self, valor):
+        # Limita a lista a 60 valores
+        if len(self.lista) < 60:
+            self.lista.append(valor)
+        else:
+            self.lista.pop(0)
+            self.lista.append(valor)
     
+    def mostrar(self):
+        print(self.lista)
+
+dados = DadosLuminosidadeUltimaHora()
+
+while True:
+    
+    # lê o valor do LDR
+    value = ldr.value()
+    
+    # adiciona 
+    dados.adicionar(value)
+    
+    print('luminosidade = {:.0f} de 100'.format(value))
+    
+    # faz o led piscar em caso de alta luminosidade
     if(value >= 70):
         led.value(1)
-    else:
+        time.sleep(0.5)
         led.value(0)
+        
+    dados.mostrar()
 
-    # a little delay
+    # delay entre medições
     time.sleep(1)
