@@ -45,39 +45,55 @@ class LDR:
 ldr = LDR(32)
 
 class DadosLuminosidadeUltimaHora:
+    #Inicializa a classe
     def __init__(self):
         self.lista = []
         
+    # Administra o tamanho da lista para garantir que não passe de 60 elementos
     def adicionar(self, valor):
         # Limita a lista a 60 valores
         if len(self.lista) < 60:
             self.lista.append(valor)
+            
+        # Caso em que a lista já tem mais de 60 entradas
         else:
+            # Remove o primeiro elemento da lista
             self.lista.pop(0)
+            
+            # Adiciona um elemento na última posição da lista
             self.lista.append(valor)
     
+    # Faz um print da lista na tela
     def mostrar(self):
         print(self.lista)
 
-dados = DadosLuminosidadeUltimaHora()
+dadosLuminosidadeUltimaHora = DadosLuminosidadeUltimaHora()
 
 while True:
     
-    # lê o valor do LDR
-    value = ldr.value()
+    # Lista para o calculo da média da luminosidade do último minuto
+    dadosUltimoMinuto = []
     
-    # adiciona 
-    dados.adicionar(value)
-    
-    print('luminosidade = {:.0f} de 100'.format(value))
-    
-    # faz o led piscar em caso de alta luminosidade
-    if(value >= 70):
-        led.value(1)
-        time.sleep(0.5)
-        led.value(0)
+    for _ in range(60):    
+        # lê o valor do LDR
+        value = ldr.value()
         
-    dados.mostrar()
+        print('luminosidade = {:.0f} de 100'.format(value))
+        
+        dadosUltimoMinuto.append(value)
+        
+        # faz o led piscar em caso de alta luminosidade
+        if(value >= 70):
+            led.value(1)
+            time.sleep(0.5)
+            led.value(0)
 
-    # delay entre medições
-    time.sleep(1)
+        # delay de 1 segundo entre medições
+        time.sleep(1)
+        
+    # calcula a média da luminosidade do último minuto
+    mediaLuminosidadeUltimoMinuto = sum(dadosUltimoMinuto)/60
+
+    # adiciona a média da luminosidade do último minuto
+    dadosLuminosidadeUltimaHora.adicionar(mediaLuminosidadeUltimoMinuto)
+    dadosLuminosidadeUltimaHora.mostrar()
