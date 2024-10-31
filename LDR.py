@@ -1,6 +1,8 @@
 from machine import ADC, Pin
 import time
 
+led = Pin(13, Pin.OUT)
+
 class LDR:
     """This class read a value from a light dependent resistor (LDR)"""
 
@@ -46,6 +48,11 @@ while True:
     # read a value from the LDR
     value = ldr.value()
     print('value = {}'.format(value))
+    
+    if(value >= 70):
+        led.value(1)
+    else:
+        led.value(0)
 
     # a little delay
     time.sleep(1)
