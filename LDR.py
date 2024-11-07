@@ -18,7 +18,7 @@ class LDR:
         """
 
         if min_value >= max_value:
-            raise Exception('Min value is greater or equal to max value')
+            raise Exception("Min value is greater or equal to max value")
 
         # initialize ADC (analog to digital conversion)
         self.adc = ADC(Pin(pin))
@@ -47,65 +47,66 @@ class LDR:
 # inicializa o LDR
 ldr = LDR(32)
 
+
 class DadosLuminosidadeUltimaHora:
-    #Inicializa a classe
+    # Inicializa a classe
     def __init__(self):
         self.lista = []
-        
+
     # Administra o tamanho da lista para garantir que não passe de 60 elementos
     def adicionar(self, valor):
         # Limita a lista a 60 valores
         if len(self.lista) < 60:
             self.lista.append(valor)
-            
+
         # Caso em que a lista já tem mais de 60 entradas
         else:
             # Remove o primeiro elemento da lista
             self.lista.pop(0)
-            
+
             # Adiciona um elemento na última posição da lista
             self.lista.append(valor)
-    
+
     # Faz um print da lista na tela
     def mostrar(self):
         print(self.lista)
 
+
 dadosLuminosidadeUltimaHora = DadosLuminosidadeUltimaHora()
 
 while True:
-    
+
     # Lista para o calculo da média da luminosidade do último minuto
     dadosUltimoMinuto = []
-    
-    for _ in range(60):    
+
+    for _ in range(60):
         # lê o valor do LDR
         value = ldr.value()
-        
-        print('luminosidade = {:.0f} de 100'.format(value))
-        
+
+        print("luminosidade = {:.0f} de 100".format(value))
+
         dadosUltimoMinuto.append(value)
-        
+
         # faz o led acender de acordo com a luminosidade
-        if(value >= 70):
+        if value >= 50:
             led.value(1)
             time.sleep(0.5)
         else:
             led.value(0)
-        if(value >= 85):
+        if value >= 80:
             led2.value(1)
         else:
             led2.value(0)
-        if(value == 100):
+        if value == 100:
             led3.value(1)
         else:
             led3.value(0)
-            
 
         # delay de 1 segundo entre medições
         time.sleep(1)
-        
+
     # calcula a média da luminosidade do último minuto
-    mediaLuminosidadeUltimoMinuto = sum(dadosUltimoMinuto)/60
+    mediaLuminosidadeUltimoMinuto = sum(dadosUltimoMinuto) / 60
 
     # adiciona a média da luminosidade do último minuto
     dadosLuminosidadeUltimaHora.adicionar(mediaLuminosidadeUltimoMinuto)
