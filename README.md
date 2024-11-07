@@ -6,9 +6,9 @@ ACH2157 - Computação Física e Aplicações (2024)
 
 ## Mapemento dos Pinos
 
-### Sensor UV
+### Sensor UV (GYML8511)
 
-VIN <-> NADA\
+VIN <-> nada\
 3V3 <-> 3V3\
 GND <-> GND\
 OUT <-> D34\
