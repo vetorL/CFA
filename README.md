@@ -22,3 +22,8 @@ GND <-> GND\
 Led1 <-> D13\
 Led2 <-> D12\
 Led3 <-> D14
+
+### Motor de Vibração Coin
+
+Fio Vermelho <-> D5\
+Fio Preto <-> GND
