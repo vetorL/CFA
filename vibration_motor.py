@@ -28,19 +28,3 @@ class VibrationMotor:
     def off(self):
         print("Motor off")
         self.set_motor_speed(0)
-        
-vibration_motor = VibrationMotor(5)
-
-try:
-    while True:
-        
-        vibration_motor.on()
-        time.sleep(2)
-
-        # Turn the motor off
-        vibration_motor.off()
-        time.sleep(2)
-
-except KeyboardInterrupt:
-    vibration_motor.pwm.deinit()  # Stop PWM when exiting
-    print("Program stopped")
