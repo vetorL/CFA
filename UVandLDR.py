@@ -102,8 +102,8 @@ while True:
         output_voltage = 3.3 * uv_level / 4095.0  # Scaling the value to 0-3.3V
         
         # Debug: Print the raw UV level and corresponding output voltage
-        print("Raw UV Level: {}".format(uv_level))
-        print("Output Voltage: {:.2f} V".format(output_voltage))
+#         print("Raw UV Level: {}".format(uv_level))
+#         print("Output Voltage: {:.2f} V".format(output_voltage))
         
         # Adjusted map function for voltage-to-UV intensity conversion
         # Modify the voltage range to more accurately reflect your sensor's behavior
@@ -112,7 +112,7 @@ while True:
         uv_intensity = mapfloat(output_voltage, 0.0, 3.3, 0.0, 15.0)
         
         # Debug: Print the calculated UV intensity
-        print("UV Intensity: {:.2f} mW/cm^2".format(uv_intensity))
+        print("Intensidade UV: {:.2f} mW/cm^2".format(uv_intensity))
         
         # Wait 200ms before the next reading
         time.sleep(0.2)
