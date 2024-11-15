@@ -4,6 +4,10 @@ ACH2157 - Computação Física e Aplicações (2024)
 
 # Projeto Solar Cap
 
+## Design do Boné
+
+![Design do Boné](design_bone.jpg)
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
