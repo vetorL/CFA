@@ -16,7 +16,7 @@ VIN <-> nada\
 3V3 <-> 3V3\
 GND <-> GND\
 OUT <-> D34\
-EN <-> D4 e 3V3
+EN <-> 3V3
 
 ### Sensor de Luz - LDR
 
