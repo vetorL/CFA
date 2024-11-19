@@ -31,3 +31,8 @@ Led3 <-> D14
 
 Fio Vermelho <-> D5\
 Fio Preto <-> GND
+
+### Sensor touch - 
+IO <-> \
+VCC <-> 3V3\
+GND <-> GND\
