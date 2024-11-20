@@ -63,4 +63,9 @@ class LDR:
             
     def mostrar_luminosidade(self):
         print("luminosidade = " + str(self.value()))
+        
+    def turnoff(self):
+        self.led1.value(0)
+        self.led2.value(0)
+        self.led3.value(0)
               
