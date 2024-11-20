@@ -28,3 +28,9 @@ class VibrationMotor:
     def off(self):
         print("Motor off")
         self.set_motor_speed(0)
+
+    # Faz o motor vibrar por 3 segundos
+    def warn(self):
+        self.on()
+        time.sleep(3)
+        self.off()
