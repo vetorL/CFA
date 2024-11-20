@@ -23,3 +23,7 @@ class Dados:
     
     def getAverage(self):
         return sum(self.lista) / len(self.lista)
+
+
+    def reset(self):
+        self.lista = [0] * tamanho
