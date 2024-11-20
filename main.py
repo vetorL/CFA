@@ -16,7 +16,7 @@ class SolarCap:
         self.ldr = LDR(32)
         
         # inicializa o touch
-        self.touch(18)
+        self.touch = touch(18)
 
         # inicializa o sensor de UV
         self.UV_sensor = UV(34)
