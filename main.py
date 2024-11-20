@@ -1,5 +1,6 @@
 from vibration_motor import VibrationMotor
 from LDR import LDR
+from touch import touch
 import time
 
 
@@ -12,6 +13,9 @@ class SolarCap:
 
         # inicializa o LDR
         self.ldr = LDR(32)
+        
+        #inicializa o touch
+        self.touch(18)
         
     def start(self):
         
@@ -30,6 +34,9 @@ class SolarCap:
                 self.ldr.adjust_LEDs()
                 
                 time.sleep(1)
+                
+                if(self.touch.is_touching() == True):
+                    self.vibration_motor.pwm.deinit()
 
         except KeyboardInterrupt:
             self.vibration_motor.pwm.deinit()  # Stop PWM when exiting
