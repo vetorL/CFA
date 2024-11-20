@@ -32,7 +32,7 @@ Led3 <-> D14
 Fio Vermelho <-> D5\
 Fio Preto <-> GND
 
-### Sensor touch - 
-IO <-> \
+### Sensor touch - TTP223B
+IO <-> D18\
 VCC <-> 3V3\
-GND <-> GND\
+GND <-> GND
