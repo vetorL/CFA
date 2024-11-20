@@ -1,6 +1,7 @@
 from vibration_motor import VibrationMotor
 from LDR import LDR
 from touch import touch
+from UV import UV
 import time
 
 
@@ -14,9 +15,13 @@ class SolarCap:
         # inicializa o LDR
         self.ldr = LDR(32)
         
-        #inicializa o touch
+        # inicializa o touch
         self.touch(18)
-        
+
+        # inicializa o sensor de UV
+        self.UV_sensor = UV(34)
+
+    
     def start(self):
         
         try:
@@ -42,6 +47,7 @@ class SolarCap:
             self.vibration_motor.pwm.deinit()  # Stop PWM when exiting
             self.ldr.turnoff()
             print("Program stopped")
+
 
 solarCap = SolarCap()
 
