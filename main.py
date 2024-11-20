@@ -18,7 +18,7 @@ class SolarCap:
         try:
             # Main loop do código
             while True:
-                
+                # adicinar para ativar um timer quando a media do LDR > 95 && media do UV > 5
                 if self.ldr.value() == 100:
                     # Liga o motor de vibração
                     self.vibration_motor.on()    
@@ -33,6 +33,7 @@ class SolarCap:
 
         except KeyboardInterrupt:
             self.vibration_motor.pwm.deinit()  # Stop PWM when exiting
+            self.ldr.turnoff()
             print("Program stopped")
 
 solarCap = SolarCap()
