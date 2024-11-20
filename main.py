@@ -34,7 +34,7 @@ class SolarCap:
                 
                 # Caso os dados tenham uma média maior que 90, ligar o motor de vibração até que ele
                 # seja manualmente desligado pelo usuário
-                if self.dados.getAverage() > 90:
+                if self.dados.getAverage()["luminosidade"] > 90 and self.dados.getAverage()["uv"] > 5:
                     self.vibration_motor.on()
                 else:
                     self.vibration_motor.off()
@@ -46,8 +46,8 @@ class SolarCap:
                 # Ajusta os LEDs do LDR conforme o valor atual da luminosidade
                 self.ldr.adjust_LEDs()
                 
-                # Adiciona dados de luminosidade da iteração atual em Dados
-                self.dados.add(self.ldr.value())
+                # Adiciona dados de luminosidade e uv da iteração atual em Dados
+                self.dados.add(self.ldr.value(), self.UV_sensor.getUVIntensity())
                 
                 print(self.dados.getAverage())
                 
