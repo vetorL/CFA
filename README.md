@@ -33,6 +33,14 @@ Fio Vermelho <-> D5\
 Fio Preto <-> GND
 
 ### Sensor touch - TTP223B
+
 IO <-> D18\
 VCC <-> 3V3\
 GND <-> GND
+
+### OLED Display
+
+GND <-> GND\
+VCC <-> 3V3\
+SCL <-> 23\
+SDA <-> 22
