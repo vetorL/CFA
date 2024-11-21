@@ -13,7 +13,13 @@ if len(sys.argv) > 1:
     im_resize.save(buf, "ppm")
     byte_im = buf.getvalue()
     temp = len(str(x) + " " + str(y)) + 4
+
     print(byte_im[temp::])
+
+    f = open("images_repo.py", "w")
+    f.write("img_1 = " + "bytearray(" + str(byte_im[temp::]) + ")\n")
+    f.close()
+
 else:
     print(
         "please specify the location of image i.e img2bytearray.py /path/to/image width heigh"
