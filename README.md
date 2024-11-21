@@ -4,6 +4,8 @@ ACH2157 - Computação Física e Aplicações (2024)
 
 # Projeto Solar Cap
 
+![SolarCap Logo](SolarCap_LOGO.gif)
+
 ## Design do Boné
 
 ![Design do Boné](design_bone.jpg)
