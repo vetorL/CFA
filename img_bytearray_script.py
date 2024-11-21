@@ -14,7 +14,7 @@ output_file = "images_repo.py"
 
 # Initialize output file
 with open(output_file, "w") as f:
-    f.write("# Image byte arrays\n\n")
+    f.write("# Image byte arrays with inverted colors\n\n")
 
 # Initialize image list
 img_list = []
@@ -44,8 +44,12 @@ for filename in sorted(os.listdir(assets_dir), key=natural_sort_key):
 
     # Resize image
     im_resize = im.resize((x, y))
+
+    # Invert colors
+    inverted_im = Image.eval(im_resize, lambda px: 255 - px)
+
     buf = BytesIO()
-    im_resize.save(buf, "ppm")
+    inverted_im.save(buf, "ppm")
     byte_im = buf.getvalue()
 
     # Calculate offset
@@ -63,4 +67,4 @@ for filename in sorted(os.listdir(assets_dir), key=natural_sort_key):
 with open(output_file, "a") as f:
     f.write(f"images_list = [{', '.join(img_list)}]\n")
 
-print(f"Processed images saved to {output_file}.")
+print(f"Processed images with inverted colors saved to {output_file}.")
