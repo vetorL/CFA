@@ -4,17 +4,21 @@ import framebuf
 import images_repo
 import utime
 
-# using default address 0x3C
-i2c = SoftI2C(sda=Pin(22), scl=Pin(23))
-display = ssd1306.SSD1306_I2C(128, 64, i2c)
+        
+class Display:
+    
+    def __init__(self):
+        # using default address 0x3C
+        self.i2c = SoftI2C(sda=Pin(22), scl=Pin(23))
+        self.display = ssd1306.SSD1306_I2C(128, 64, self.i2c)
+        
+    def start_intro(self):
+        for image in images_repo.images_list:
+            buffer = image
 
-while True:
-    for image in images_repo.images_list:
-        buffer = image
+            fb = framebuf.FrameBuffer(buffer, 128, 64, framebuf.MONO_HLSB)
+            self.display.fill(0)
+            self.display.blit(fb, 8, 0)
 
-        fb = framebuf.FrameBuffer(buffer, 128, 64, framebuf.MONO_HLSB)
-        display.fill(0)
-        display.blit(fb, 8, 0)
-
-        display.show()
-        utime.sleep_ms(100)
+            self.display.show()
+            utime.sleep_ms(100)
