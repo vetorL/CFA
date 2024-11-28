@@ -47,25 +47,28 @@ for subdir in sorted(os.listdir(assets_dir), key=natural_sort_key):
             print(f"Skipping non-image file: {filename} in {subdir}")
             continue
 
-        # Resize image
-        im_resize = im.resize((x, y))
+        # Only process every other image
+        if img_counter % 2 == 1:
+            # Resize image
+            im_resize = im.resize((x, y))
 
-        # Invert colors
-        inverted_im = Image.eval(im_resize, lambda px: 255 - px)
+            # Invert colors
+            inverted_im = Image.eval(im_resize, lambda px: 255 - px)
 
-        buf = BytesIO()
-        inverted_im.save(buf, "ppm")
-        byte_im = buf.getvalue()
+            buf = BytesIO()
+            inverted_im.save(buf, "ppm")
+            byte_im = buf.getvalue()
 
-        # Calculate offset
-        temp = len(str(x) + " " + str(y)) + 4
+            # Calculate offset
+            temp = len(str(x) + " " + str(y)) + 4
 
-        # Extract byte array and save to Python file
-        image_bytes = byte_im[temp:]
-        var_name = f"{subdir}_img_{img_counter}"
-        img_list.append(var_name)  # Add variable name to list
-        with open(output_file, "a") as f:
-            f.write(f"{var_name} = bytearray({repr(image_bytes)})\n\n")
+            # Extract byte array and save to Python file
+            image_bytes = byte_im[temp:]
+            var_name = f"{subdir}_img_{img_counter}"
+            img_list.append(var_name)  # Add variable name to list
+            with open(output_file, "a") as f:
+                f.write(f"{var_name} = bytearray({repr(image_bytes)})\n\n")
+
         img_counter += 1
 
     # Write the list of images for the current directory
