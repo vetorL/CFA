@@ -34,3 +34,6 @@ class Display:
 
     def run_uv_high(self):
         self.run(images_repo.uv_alto_images_list)
+
+    def run_uv_very_high(self):
+        self.run(images_repo.uv_muito_alto_images_list)
