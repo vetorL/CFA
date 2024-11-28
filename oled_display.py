@@ -22,3 +22,6 @@ class Display:
 
             self.display.show()
             utime.sleep_ms(100)
+
+    def run_intro(self):
+        self.run(images_repo.intro_images_list)
