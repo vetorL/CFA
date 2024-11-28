@@ -28,3 +28,6 @@ class Display:
 
     def run_uv_low(self):
         self.run(images_repo.uv_baixo_images_list)
+
+    def run_uv_high(self):
+        self.run(images_repo.uv_alto_images_list)
