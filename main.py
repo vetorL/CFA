@@ -4,6 +4,7 @@ from touch import touch
 from UV import UV
 from dados import Dados
 import time
+from oled_display import Display
 
 
 class SolarCap:
@@ -24,6 +25,9 @@ class SolarCap:
         
         # Lista com os últimos 900 valores (equivalente aos últimos 15 minutos)
         self.dados = Dados(900)
+        
+        # Inicializa display
+        self.display = Display()
 
     
     def start(self):
