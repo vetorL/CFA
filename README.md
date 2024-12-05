@@ -974,6 +974,139 @@ dados.mostrar()
 
 ---
 
+# Documentação do Módulo `vibration_motor.py`
+
+O módulo `vibration_motor.py` implementa a classe `VibrationMotor`, que controla um motor vibratório usando sinal PWM (modulação por largura de pulso). Ele permite ajustar a velocidade do motor, ligá-lo, desligá-lo e executar padrões simples de vibração.
+
+---
+
+## Classe `VibrationMotor`
+
+A classe `VibrationMotor` controla um motor vibratório conectado a um pino GPIO por meio de PWM. É adequada para criar alertas táteis em dispositivos eletrônicos.
+
+---
+
+### Métodos
+
+#### `__init__(self, pin)`
+
+Inicializa uma instância do motor vibratório.
+
+##### Parâmetros:
+- **`pin`** (`int`): O número do pino GPIO ao qual o motor está conectado.
+
+##### Descrição:
+- Configura o pino GPIO como saída.
+- Inicializa um objeto PWM para controlar o motor.
+- Define a frequência padrão do PWM como 1 kHz.
+
+##### Exemplo:
+```python
+motor = VibrationMotor(pin=25)
+```
+
+---
+
+#### `set_motor_speed(self, speed)`
+
+Ajusta a velocidade do motor, controlando o ciclo de trabalho do PWM.
+
+##### Parâmetros:
+- **`speed`** (`int`): Um valor entre 0 e 1023, onde:
+  - `0`: Motor desligado.
+  - `1023`: Velocidade máxima.
+
+##### Descrição:
+- Define o ciclo de trabalho do PWM, ajustando a intensidade da vibração.
+
+##### Exemplo:
+```python
+motor.set_motor_speed(512)  # Define velocidade média
+```
+
+---
+
+#### `on(self)`
+
+Liga o motor na velocidade máxima.
+
+##### Descrição:
+- Define o ciclo de trabalho como `1023` (velocidade total).
+- Exibe uma mensagem no console.
+
+##### Exemplo:
+```python
+motor.on()
+```
+
+---
+
+#### `off(self)`
+
+Desliga o motor completamente.
+
+##### Descrição:
+- Define o ciclo de trabalho como `0` (desligado).
+- Exibe uma mensagem no console.
+
+##### Exemplo:
+```python
+motor.off()
+```
+
+---
+
+#### `warn(self)`
+
+Faz o motor vibrar por 3 segundos como um alerta.
+
+##### Descrição:
+- Liga o motor na velocidade máxima.
+- Mantém o motor ligado por 3 segundos usando `time.sleep(3)`.
+- Desliga o motor após o período.
+
+##### Exemplo:
+```python
+motor.warn()  # Vibração de 3 segundos
+```
+
+---
+
+## Exemplo de Uso
+
+```python
+from vibration_motor import VibrationMotor
+
+# Configura o motor vibratório no pino GPIO 25
+motor = VibrationMotor(pin=25)
+
+# Liga o motor
+motor.on()
+
+# Aguarda 2 segundos
+time.sleep(2)
+
+# Desliga o motor
+motor.off()
+
+# Ajusta a velocidade para 50% (ciclo de trabalho 512)
+motor.set_motor_speed(512)
+
+# Executa vibração de alerta
+motor.warn()
+```
+
+---
+
+## Detalhes de Implementação
+
+1. **Controle por PWM**: O motor é controlado ajustando o ciclo de trabalho do PWM, permitindo regular a intensidade da vibração.
+2. **Frequência Padrão**: A frequência do PWM é configurada como 1 kHz, adequada para a maioria dos motores vibratórios.
+3. **Alertas Programáveis**: O método `warn` demonstra como criar padrões simples de vibração, úteis para feedback tátil.
+4. **Modularidade**: A classe é genérica e pode ser usada com qualquer pino GPIO e motor vibratório compatível com PWM.
+
+---
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
