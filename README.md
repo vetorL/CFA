@@ -293,6 +293,135 @@ Cada elemento da lista deve ser um `bytearray` representando uma imagem compatí
 - As imagens no repositório `images_repo` devem estar no formato apropriado para uso com o `framebuf.FrameBuffer`, ou seja, buffers de 128x64 pixels com profundidade de cor de 1 bit.
 - O tempo de exibição de cada imagem é de 100 milissegundos, conforme definido no método `run`. Esse valor pode ser ajustado conforme necessário.
 
+---
+
+# Documentação do Módulo `img_bytearray_script.py`
+
+O módulo `img_bytearray_script.py` automatiza a geração de byte arrays para imagens em escala de cinza, formatadas para exibição em displays OLED ou outras aplicações que utilizem buffers de imagem em formato binário. Ele processa imagens localizadas em subdiretórios de uma pasta raiz, gera versões invertidas e redimensionadas, e as armazena em um arquivo Python no formato necessário.
+
+---
+
+## Dependências
+
+Este script utiliza as seguintes bibliotecas:
+
+- **`os`**: Para manipulação de diretórios e caminhos de arquivos.
+- **`io`**: Para criar fluxos de bytes em memória.
+- **`PIL` (Pillow)**: Para manipulação e transformação de imagens.
+- **`re`**: Para ordenação natural de nomes de arquivos e diretórios.
+
+---
+
+## Parâmetros Configuráveis
+
+- **Dimensões de saída**:
+  - `x, y = 128, 64`: Dimensões das imagens de saída (em pixels).
+- **Pasta raiz das imagens**:
+  - `assets_dir = "assets"`: Caminho para a pasta contendo subdiretórios com imagens a serem processadas.
+- **Arquivo de saída**:
+  - `output_file = "images_repo.py"`: Caminho para o arquivo Python onde os byte arrays gerados serão salvos.
+
+---
+
+## Fluxo do Script
+
+1. **Configuração inicial**:
+   - Cria e inicializa o arquivo de saída, inserindo um cabeçalho.
+2. **Ordenação natural**:
+   - Ordena subdiretórios e arquivos para garantir que as imagens sejam processadas na sequência esperada.
+3. **Processamento de imagens**:
+   - Para cada subdiretório:
+     - Processa cada imagem:
+       - Redimensiona para as dimensões especificadas.
+       - Inverte as cores (para compatibilidade com displays que usam cor binária invertida).
+       - Converte a imagem para um byte array.
+     - Gera variáveis Python para cada imagem e lista de imagens para o subdiretório.
+4. **Exportação**:
+   - Escreve os byte arrays e listas de imagens no arquivo de saída.
+
+---
+
+## Funções e Métodos
+
+### `natural_sort_key(s)`
+
+- **Descrição**:
+  Retorna uma chave de ordenação natural para strings, permitindo que nomes de arquivos como `img1`, `img2`, ..., `img10` sejam ordenados corretamente.
+- **Parâmetros**:
+
+  - `s` (str): Nome do arquivo ou diretório.
+
+- **Retorno**:
+  - Uma lista contendo inteiros e strings, permitindo a ordenação natural.
+
+---
+
+## Exemplo de Estrutura de Arquivos
+
+### Entrada
+
+**Diretório `assets/`**:
+
+```
+assets/
+├── intro/
+│   ├── frame1.png
+│   ├── frame2.png
+│   └── frame3.png
+├── uv_baixo/
+│   ├── img1.png
+│   └── img2.png
+└── uv_alto/
+    ├── img1.png
+    ├── img2.png
+    └── img3.png
+```
+
+### Saída
+
+**Arquivo `images_repo.py`**:
+
+```python
+# Image byte arrays with inverted colors
+
+intro_img_1 = bytearray(b'\x00\x01\x02...')  # Byte array da imagem 1
+intro_img_2 = bytearray(b'\x01\x02\x03...')  # Byte array da imagem 2
+
+intro_images_list = [intro_img_1, intro_img_2]
+
+uv_baixo_img_1 = bytearray(b'\x04\x05\x06...')
+uv_baixo_img_2 = bytearray(b'\x07\x08\x09...')
+
+uv_baixo_images_list = [uv_baixo_img_1, uv_baixo_img_2]
+
+uv_alto_img_1 = bytearray(b'\x0A\x0B\x0C...')
+uv_alto_img_2 = bytearray(b'\x0D\x0E\x0F...')
+uv_alto_img_3 = bytearray(b'\x10\x11\x12...')
+
+uv_alto_images_list = [uv_alto_img_1, uv_alto_img_2, uv_alto_img_3]
+```
+
+---
+
+## Notas Importantes
+
+- **Formatos suportados**: O script processa arquivos compatíveis com o Pillow (ex.: PNG, JPEG, BMP).
+- **Inversão de cores**: Essencial para displays OLED que usam buffer de cor binária invertida.
+- **Resolução**: Certifique-se de que o display ou dispositivo alvo suporta as dimensões configuradas (`128x64` por padrão).
+
+---
+
+## Execução
+
+1. Certifique-se de que as imagens estão organizadas na estrutura de pastas correta dentro do diretório especificado (`assets/`).
+2. Execute o script:
+   ```bash
+   python img_bytearray_script.py
+   ```
+3. Verifique o arquivo de saída (`images_repo.py`) para os byte arrays e listas de imagens gerados.
+
+---
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
