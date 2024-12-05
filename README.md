@@ -422,6 +422,165 @@ uv_alto_images_list = [uv_alto_img_1, uv_alto_img_2, uv_alto_img_3]
 
 ---
 
+# Documentação do Módulo `LDR.py`
+
+O módulo `LDR.py` implementa uma classe para a leitura de um sensor LDR (Light Dependent Resistor) conectado a um microcontrolador. Além de fornecer leituras ajustadas para um intervalo personalizado, ele também controla LEDs que indicam diferentes níveis de luminosidade.
+
+## Classe `LDR`
+
+A classe `LDR` encapsula a funcionalidade necessária para interagir com o sensor LDR e controlar LEDs com base nas leituras de luminosidade.
+
+### Métodos
+
+#### `__init__(self, pin, min_value=0, max_value=100)`
+
+Este método inicializa a classe `LDR`.
+
+##### Parâmetros:
+
+- **`pin`** (`int`): O número do pino ao qual o sensor LDR está conectado.
+- **`min_value`** (`int`, opcional): O menor valor no intervalo de saída. O padrão é 0.
+- **`max_value`** (`int`, opcional): O maior valor no intervalo de saída. O padrão é 100.
+
+##### Descrição:
+
+- Configura o ADC (Conversor Analógico-Digital) para ler valores do pino especificado.
+- Define os pinos dos LEDs e os configura como saídas.
+- Lança uma exceção se `min_value` for maior ou igual a `max_value`.
+
+##### Exemplo:
+
+```python
+ldr = LDR(pin=32, min_value=0, max_value=100)
+```
+
+---
+
+#### `read(self)`
+
+Lê o valor bruto do sensor LDR.
+
+##### Retorno:
+
+- **`int`**: Um valor entre 0 e 4095 representando a leitura do sensor.
+
+##### Exemplo:
+
+```python
+raw_value = ldr.read()
+print(f"Valor bruto do LDR: {raw_value}")
+```
+
+---
+
+#### `value(self)`
+
+Retorna o valor ajustado da leitura do LDR com base nos intervalos definidos no construtor.
+
+##### Retorno:
+
+- **`float`**: Um valor no intervalo `[min_value, max_value]`.
+
+##### Exemplo:
+
+```python
+luminosidade = ldr.value()
+print(f"Luminosidade ajustada: {luminosidade}")
+```
+
+---
+
+#### `adjust_LEDs(self)`
+
+Controla o estado dos LEDs com base no nível de luminosidade lido pelo sensor.
+
+##### Descrição:
+
+- Acende o LED 1 se a luminosidade for maior ou igual a 50.
+- Acende o LED 2 se a luminosidade for maior ou igual a 80.
+- Acende o LED 3 se a luminosidade atingir 100.
+
+##### Exemplo:
+
+```python
+ldr.adjust_LEDs()
+```
+
+---
+
+#### `mostrar_luminosidade(self)`
+
+Exibe a luminosidade ajustada no console.
+
+##### Exemplo:
+
+```python
+ldr.mostrar_luminosidade()
+```
+
+---
+
+#### `turnoff(self)`
+
+Desliga todos os LEDs.
+
+##### Exemplo:
+
+```python
+ldr.turnoff()
+```
+
+---
+
+## Exemplo de Uso
+
+```python
+from LDR import LDR
+import time
+
+# Instanciando o sensor LDR
+ldr = LDR(pin=32, min_value=0, max_value=100)
+
+try:
+    while True:
+        # Mostra a luminosidade no console
+        ldr.mostrar_luminosidade()
+
+        # Ajusta os LEDs com base na leitura de luminosidade
+        ldr.adjust_LEDs()
+
+        # Aguarda 1 segundo antes de fazer a próxima leitura
+        time.sleep(1)
+except KeyboardInterrupt:
+    # Desliga os LEDs ao interromper o programa
+    ldr.turnoff()
+    print("Programa encerrado.")
+```
+
+---
+
+## Estrutura de Pinos
+
+### Sensor LDR
+
+- **Pino Analógico** -> Conectado ao pino especificado no construtor (por exemplo, D32).
+- **GND** -> GND.
+- **VCC** -> 3.3V ou 5V (dependendo do modelo do LDR).
+
+### LEDs
+
+- **LED 1** -> Conectado ao pino D13.
+- **LED 2** -> Conectado ao pino D12.
+- **LED 3** -> Conectado ao pino D14.
+
+---
+
+## Notas
+
+- **Intervalo de Valores:** O método `value()` ajusta a leitura bruta do LDR (0-4095) para o intervalo especificado pelo usuário (`min_value` a `max_value`).
+- **Controle de LEDs:** Os LEDs fornecem um feedback visual sobre a luminosidade detectada.
+- **Exceção:** O construtor lançará uma exceção se `min_value` for maior ou igual a `max_value`.
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
