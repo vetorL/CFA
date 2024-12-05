@@ -581,6 +581,102 @@ except KeyboardInterrupt:
 - **Controle de LEDs:** Os LEDs fornecem um feedback visual sobre a luminosidade detectada.
 - **Exceção:** O construtor lançará uma exceção se `min_value` for maior ou igual a `max_value`.
 
+# Documentação do Módulo `touch.py`
+
+O módulo `touch.py` implementa uma classe simples para interagir com um sensor de toque conectado a um microcontrolador. Ele verifica se o sensor detecta um toque e retorna um estado booleano.
+
+---
+
+## Classe `touch`
+
+A classe `touch` encapsula a lógica para gerenciar um sensor de toque conectado a um pino específico.
+
+---
+
+### Métodos
+
+#### `__init__(self, SENSOR_PIN)`
+
+Inicializa a instância da classe `touch`.
+
+##### Parâmetros:
+
+- **`SENSOR_PIN`** (`int`): O número do pino digital ao qual o sensor de toque está conectado.
+
+##### Descrição:
+
+- Configura o pino especificado como entrada para capturar o estado do sensor.
+
+##### Exemplo:
+
+```python
+sensor_toque = touch(SENSOR_PIN=27)
+```
+
+---
+
+#### `is_touching(self)`
+
+Verifica se o sensor de toque está ativo (toque detectado).
+
+##### Retorno:
+
+- **`bool`**:
+  - `True`: Quando o sensor detecta um toque (estado lógico 1).
+  - `False`: Quando nenhum toque é detectado (estado lógico 0).
+
+##### Exemplo:
+
+```python
+if sensor_toque.is_touching():
+    print("Sensor de toque ativado!")
+else:
+    print("Nenhum toque detectado.")
+```
+
+---
+
+## Exemplo de Uso
+
+```python
+from touch import touch
+import time
+
+# Instanciando o sensor de toque
+sensor = touch(SENSOR_PIN=27)
+
+try:
+    while True:
+        if sensor.is_touching():
+            print("Toque detectado!")
+        else:
+            print("Nenhum toque.")
+
+        # Aguarda 0.5 segundos antes de verificar novamente
+        time.sleep(0.5)
+except KeyboardInterrupt:
+    print("Programa encerrado.")
+```
+
+---
+
+## Estrutura de Pinos
+
+### Sensor de Toque
+
+- **Sinal** -> Conectado ao pino especificado no construtor (por exemplo, D27).
+- **GND** -> GND.
+- **VCC** -> 3.3V ou 5V (dependendo do modelo do sensor).
+
+---
+
+## Notas
+
+- **Lógica:** O método `is_touching()` verifica o estado do pino digital associado ao sensor de toque.
+  - Um valor lógico 1 indica que o sensor detectou um toque.
+  - Um valor lógico 0 indica que nenhum toque foi detectado.
+- **Uso em Loops:** Ideal para aplicações que requerem detecção contínua de toque, como interruptores táteis ou interfaces interativas.
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
