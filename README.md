@@ -677,6 +677,159 @@ except KeyboardInterrupt:
   - Um valor lógico 0 indica que nenhum toque foi detectado.
 - **Uso em Loops:** Ideal para aplicações que requerem detecção contínua de toque, como interruptores táteis ou interfaces interativas.
 
+# Documentação do Módulo `UV.py`
+
+O módulo `UV.py` implementa uma classe para medir a intensidade da radiação ultravioleta (UV) utilizando um sensor UV conectado a um microcontrolador. Ele fornece funcionalidades para leitura analógica, cálculo de intensidade UV, e exibição dos dados.
+
+---
+
+## Classe `UV`
+
+A classe `UV` encapsula a lógica necessária para interagir com o sensor de UV, ler valores analógicos, e mapear os resultados para a intensidade de UV em mW/cm².
+
+---
+
+### Métodos
+
+#### `__init__(self, pin)`
+
+Inicializa uma instância da classe `UV`.
+
+##### Parâmetros:
+
+- **`pin`** (`int`): O número do pino ADC ao qual o sensor UV está conectado (deve ser um pino compatível com ADC, como GPIO34 ou GPIO32).
+
+##### Descrição:
+
+- Configura o pino ADC para leitura analógica.
+- Define a atenuação como 11 dB (intervalo de 0 a 3.3V).
+- Define a largura do ADC para 12 bits (resultados no intervalo 0–4095).
+
+##### Exemplo:
+
+```python
+sensor_uv = UV(pin=34)
+```
+
+---
+
+#### `average_analog_read(self, pinToRead, num_readings=8)`
+
+Lê e calcula a média de múltiplas amostras analógicas do sensor.
+
+##### Parâmetros:
+
+- **`pinToRead`**: Instância do pino ADC a ser lido.
+- **`num_readings`** (`int`, opcional): Número de leituras a serem realizadas (padrão: 8).
+
+##### Retorno:
+
+- **`int`**: O valor médio das leituras analógicas (intervalo de 0 a 4095).
+
+##### Exemplo:
+
+```python
+media = sensor_uv.average_analog_read(sensor_uv.UVsensorIn)
+```
+
+---
+
+#### `mapfloat(self, x, in_min, in_max, out_min, out_max)`
+
+Mapeia um valor de um intervalo para outro.
+
+##### Parâmetros:
+
+- **`x`** (`float`): Valor a ser mapeado.
+- **`in_min`**, **`in_max`** (`float`): Limites do intervalo de entrada.
+- **`out_min`**, **`out_max`** (`float`): Limites do intervalo de saída.
+
+##### Retorno:
+
+- **`float`**: O valor mapeado no intervalo de saída.
+
+##### Exemplo:
+
+```python
+valor_mapeado = sensor_uv.mapfloat(1.5, 0.0, 3.3, 0.0, 15.0)
+```
+
+---
+
+#### `getUVIntensity(self)`
+
+Calcula a intensidade de radiação UV em mW/cm².
+
+##### Retorno:
+
+- **`float`**: Intensidade UV (0.0–15.0 mW/cm²).
+
+##### Descrição:
+
+1. Calcula a média das leituras analógicas.
+2. Converte o valor lido em uma tensão de saída (0.0–3.3V).
+3. Mapeia a tensão para uma intensidade UV.
+
+##### Exemplo:
+
+```python
+intensidade = sensor_uv.getUVIntensity()
+print("Intensidade UV: {:.2f} mW/cm²".format(intensidade))
+```
+
+---
+
+#### `showData(self)`
+
+Exibe os dados de intensidade UV no console.
+
+##### Descrição:
+
+- Chama o método `getUVIntensity()` para obter a intensidade UV e a exibe formatada como texto.
+
+##### Exemplo:
+
+```python
+sensor_uv.showData()
+```
+
+---
+
+## Exemplo de Uso
+
+```python
+from UV import UV
+import time
+
+# Instancia o sensor UV no pino 34
+sensor_uv = UV(pin=34)
+
+try:
+    while True:
+        sensor_uv.showData()
+        time.sleep(1)  # Aguarda 1 segundo entre leituras
+except KeyboardInterrupt:
+    print("Encerrando o programa.")
+```
+
+---
+
+## Estrutura de Pinos
+
+### Sensor UV
+
+- **Sinal (OUT)** -> Conectado ao pino ADC (exemplo: GPIO34).
+- **GND** -> GND do microcontrolador.
+- **VCC** -> 3.3V.
+
+---
+
+## Notas
+
+- **Intervalo de Intensidade:** A intensidade UV é calculada no intervalo de 0.0 a 15.0 mW/cm², com base na tensão de saída do sensor.
+- **Ruído:** O método `average_analog_read()` ajuda a reduzir flutuações nos valores de leitura.
+- **Precaução:** Certifique-se de usar um pino ADC compatível para evitar erros de leitura.
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
