@@ -830,6 +830,150 @@ except KeyboardInterrupt:
 - **Ruído:** O método `average_analog_read()` ajuda a reduzir flutuações nos valores de leitura.
 - **Precaução:** Certifique-se de usar um pino ADC compatível para evitar erros de leitura.
 
+# Documentação do Módulo `dados.py`
+
+O módulo `dados.py` implementa a classe `Dados`, que serve para gerenciar dados sobre luminosidade e radiação UV de forma estruturada. Ele permite armazenar, atualizar e calcular a média dos dados coletados.
+
+---
+
+## Classe `Dados`
+
+A classe `Dados` organiza as leituras de luminosidade e UV em uma lista de tamanho fixo. Os métodos fornecem funcionalidades para adicionar novos dados, calcular médias, exibir os dados armazenados e reinicializar a lista.
+
+---
+
+### Métodos
+
+#### `__init__(self, tamanho)`
+
+Inicializa uma instância da classe `Dados`.
+
+##### Parâmetros:
+
+- **`tamanho`** (`int`): O número máximo de elementos que a lista pode conter.
+
+##### Descrição:
+
+- Cria uma lista inicial de dicionários com `tamanho` elementos, cada um contendo valores `{"luminosidade": 0, "uv": 0}`.
+- Define o tamanho fixo da lista para gerenciar os dados.
+
+##### Exemplo:
+
+```python
+dados = Dados(tamanho=10)
+```
+
+---
+
+#### `add(self, luminosidade, uv)`
+
+Adiciona um novo conjunto de valores de luminosidade e UV à lista, garantindo que o tamanho máximo seja respeitado.
+
+##### Parâmetros:
+
+- **`luminosidade`** (`float` ou `int`): Valor da luminosidade a ser adicionado.
+- **`uv`** (`float` ou `int`): Valor da radiação UV a ser adicionado.
+
+##### Descrição:
+
+- Remove o primeiro elemento da lista para manter o tamanho fixo.
+- Adiciona o novo dicionário com os valores no final da lista.
+
+##### Exemplo:
+
+```python
+dados.add(luminosidade=50, uv=5.3)
+```
+
+---
+
+#### `mostrar(self)`
+
+Exibe no console a lista atual de dados armazenados.
+
+##### Exemplo:
+
+```python
+dados.mostrar()
+# Saída: [{"luminosidade": 0, "uv": 0}, {"luminosidade": 50, "uv": 5.3}, ...]
+```
+
+---
+
+#### `getAverage(self)`
+
+Calcula a média de luminosidade e UV com base nos valores armazenados na lista.
+
+##### Retorno:
+
+- **`dict`**: Um dicionário contendo as médias de luminosidade e UV:
+  ```python
+  {"luminosidade": media_luminosidade, "uv": media_uv}
+  ```
+
+##### Descrição:
+
+- Itera sobre os valores armazenados, separa luminosidade e UV em listas individuais e calcula a média de cada uma.
+
+##### Exemplo:
+
+```python
+media = dados.getAverage()
+print("Média:", media)
+# Saída: {"luminosidade": 25.5, "uv": 2.65}
+```
+
+---
+
+#### `reset(self)`
+
+Reinicializa a lista, substituindo todos os elementos por dicionários com valores `{"luminosidade": 0, "uv": 0}`.
+
+##### Exemplo:
+
+```python
+dados.reset()
+dados.mostrar()
+# Saída: [{"luminosidade": 0, "uv": 0}, {"luminosidade": 0, "uv": 0}, ...]
+```
+
+---
+
+## Exemplo de Uso
+
+```python
+from dados import Dados
+
+# Instancia a classe com uma lista de tamanho 5
+dados = Dados(tamanho=5)
+
+# Adiciona novos valores
+dados.add(luminosidade=60, uv=4.2)
+dados.add(luminosidade=45, uv=3.8)
+
+# Mostra os dados armazenados
+dados.mostrar()
+
+# Calcula a média
+media = dados.getAverage()
+print("Média de Luminosidade e UV:", media)
+
+# Reinicia a lista
+dados.reset()
+dados.mostrar()
+```
+
+---
+
+## Detalhes de Implementação
+
+1. **Tamanho Fixado**: A lista armazena no máximo `tamanho` elementos, sendo o mais antigo removido ao adicionar um novo.
+2. **Estrutura de Dados**: Cada entrada na lista é um dicionário com as chaves `luminosidade` e `uv`.
+3. **Cálculo de Média**: A implementação usa listas compreensivas para separar os valores, somá-los e calcular a média.
+4. **Resiliência**: O método `reset` permite reinicializar os dados para evitar acúmulo indesejado de informações.
+
+---
+
 ## Mapemento dos Pinos
 
 ### Sensor UV (GYML8511)
